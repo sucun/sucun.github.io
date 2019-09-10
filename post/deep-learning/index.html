@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Deep Learning - Guobao</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="guobao" />
+  <meta name="description" content="目录 神经网络的结构 神经元（隐藏单元）与隐藏层 神经网络的运作机制 权重和偏置 非线性激活函数 梯度下降法 损失函数（Loss Function） 梯度下降" />
+
+  <meta name="keywords" content="Hugo, theme, Guobao" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.1" />
+
+
+<link rel="canonical" href="https://bai.io/post/deep-learning/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Deep Learning" />
+<meta property="og:description" content="目录 神经网络的结构 神经元（隐藏单元）与隐藏层 神经网络的运作机制 权重和偏置 非线性激活函数 梯度下降法 损失函数（Loss Function） 梯度下降" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bai.io/post/deep-learning/" />
+<meta property="article:published_time" content="2019-09-10T19:54:51+08:00" />
+<meta property="article:modified_time" content="2019-09-10T19:54:51+08:00" />
+<meta itemprop="name" content="Deep Learning">
+<meta itemprop="description" content="目录 神经网络的结构 神经元（隐藏单元）与隐藏层 神经网络的运作机制 权重和偏置 非线性激活函数 梯度下降法 损失函数（Loss Function） 梯度下降">
+
+
+<meta itemprop="datePublished" content="2019-09-10T19:54:51&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-10T19:54:51&#43;08:00" />
+<meta itemprop="wordCount" content="9542">
+
+
+
+<meta itemprop="keywords" content="deep learning," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deep Learning"/>
+<meta name="twitter:description" content="目录 神经网络的结构 神经元（隐藏单元）与隐藏层 神经网络的运作机制 权重和偏置 非线性激活函数 梯度下降法 损失函数（Loss Function） 梯度下降"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Guobao</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/">首页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/categories/">类别</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/about/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Guobao
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/">首页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/categories/">类别</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bai.io/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Deep Learning</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-09-10" class="post-time">
+          2019-09-10
+        </time>
+        <div class="post-category">
+            <a href="https://bai.io/categories/math/"> math </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#目录"><strong>目录</strong></a></li>
+</ul></li>
+<li><a href="#神经网络的结构">神经网络的结构</a>
+<ul>
+<li><a href="#神经元-隐藏单元-与隐藏层">神经元（隐藏单元）与隐藏层</a></li>
+<li><a href="#神经网络的运作机制">神经网络的运作机制</a></li>
+<li><a href="#为什么神经网络的分层结构能起作用"><strong>为什么神经网络的分层结构能起作用？</strong></a></li>
+<li><a href="#深度学习的本质-通过组合简单的概念来表达复杂的事物"><strong>深度学习的本质：通过组合简单的概念来表达复杂的事物</strong></a></li>
+<li><a href="#隐藏单元是如何被激活的"><strong>隐藏单元是如何被激活的？</strong></a>
+<ul>
+<li><a href="#权重和偏置">权重和偏置</a></li>
+</ul></li>
+<li><a href="#权重与偏置的实际意义"><strong>权重与偏置的实际意义</strong></a></li>
+<li><a href="#矢量化编程"><strong>矢量化编程</strong></a></li>
+<li><a href="#机器-学习-的实质"><strong>机器“学习”的实质</strong></a></li>
+<li><a href="#非线性激活函数">非线性激活函数</a></li>
+<li><a href="#为什么要使用非线性激活函数-神经网络的万能近似定理"><strong>为什么要使用非线性激活函数？——神经网络的万能近似定理</strong></a></li>
+<li><a href="#新时代的激活函数-线性整流单元-relu"><strong>新时代的激活函数——线性整流单元 ReLU</strong></a></li>
+</ul></li>
+<li><a href="#梯度下降法">梯度下降法</a>
+<ul>
+<li><a href="#神经网络是怎样学习的"><strong>神经网络是怎样学习的？</strong></a></li>
+<li><a href="#损失函数-loss-function">损失函数（Loss Function）</a></li>
+<li><a href="#梯度下降法-gradient-descent">梯度下降法（Gradient Descent）</a>
+<ul>
+<li><a href="#理解梯度下降法的另一种思路">理解梯度下降法的另一种思路</a></li>
+</ul></li>
+<li><a href="#梯度下降法-描述"><strong>梯度下降法</strong>描述：</a>
+<ul>
+<li><a href="#随机梯度下降-stochastic-gradient-descent">随机梯度下降（Stochastic Gradient Descent）</a></li>
+</ul></li>
+<li><a href="#神经网络的优化难题"><strong>神经网络的优化难题</strong></a></li>
+<li><a href="#再谈神经网络的运作机制">再谈神经网络的运作机制</a></li>
+<li><a href="#推荐阅读">推荐阅读</a></li>
+</ul></li>
+<li><a href="#反向传播算法-backpropagation-algorithm-bp">反向传播算法（Backpropagation Algorithm, BP）</a>
+<ul>
+<li><a href="#反向传播的直观理解">反向传播的直观理解</a></li>
+<li><a href="#示例-单个训练样本对参数调整的影响"><strong>示例：单个训练样本对参数调整的影响</strong></a>
+<ul>
+<li><a href="#bp-算法小结">BP 算法小结</a></li>
+<li><a href="#相关代码">相关代码</a></li>
+</ul></li>
+<li><a href="#反向传播的微积分原理">反向传播的微积分原理</a>
+<ul>
+<li><a href="#示例-每层只有一个神经元的网络">示例：每层只有一个神经元的网络</a></li>
+<li><a href="#更复杂的示例">更复杂的示例</a></li>
+<li><a href="#反向传播的-4-个基本公式">反向传播的 4 个基本公式</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h2 id="目录"><strong>目录</strong></h2>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#神经网络的结构">神经网络的结构</a>
+
+<ul>
+<li><a href="#神经元隐藏单元与隐藏层">神经元（隐藏单元）与隐藏层</a></li>
+<li><a href="#神经网络的运作机制">神经网络的运作机制</a></li>
+<li><a href="#权重和偏置">权重和偏置</a></li>
+<li><a href="#非线性激活函数">非线性激活函数</a></li>
+</ul></li>
+<li><a href="#梯度下降法">梯度下降法</a>
+
+<ul>
+<li><a href="#损失函数loss-function">损失函数（Loss Function）</a></li>
+<li><a href="#梯度下降法gradient-descent">梯度下降法（Gradient Descent）</a></li>
+<li><a href="#理解梯度下降法的另一种思路">理解梯度下降法的另一种思路</a></li>
+<li><a href="#随机梯度下降stochastic-gradient-descent">随机梯度下降（Stochastic Gradient Descent）</a></li>
+<li><a href="#再谈神经网络的运作机制">再谈神经网络的运作机制</a></li>
+<li><a href="#推荐阅读">推荐阅读</a></li>
+</ul></li>
+<li><a href="#反向传播算法backpropagation-algorithm-bp">反向传播算法（Backpropagation Algorithm, BP）</a>
+
+<ul>
+<li><a href="#反向传播的直观理解">反向传播的直观理解</a></li>
+<li><a href="#bp-算法小结">BP 算法小结</a></li>
+<li><a href="#相关代码">相关代码</a></li>
+<li><a href="#反向传播的微积分原理">反向传播的微积分原理</a></li>
+<li><a href="#示例每层只有一个神经元的网络">示例：每层只有一个神经元的网络</a></li>
+<li><a href="#更复杂的示例">更复杂的示例</a></li>
+<li><a href="#反向传播的-4-个基本公式">反向传播的 4 个基本公式</a></li>
+</ul></li>
+</ul>
+
+<!-- /TOC -->
+
+<h1 id="神经网络的结构">神经网络的结构</h1>
+
+<p>内容：
+- 神经网络是什么？
+- 神经网络的结构
+- 神经网络的工作机制
+- 深度学习中的“学习”指的是什么？
+- 神经网络的不足</p>
+
+<p><strong>示例：一个用于数字手写识别的神经网络</strong></p>
+
+<p><img src="../assets/TIM截图20180701210407.png" alt="" />
+&gt; 这个示例相当于深度学习领域中的 &ldquo;Hello World&rdquo;.</p>
+
+<h2 id="神经元-隐藏单元-与隐藏层">神经元（隐藏单元）与隐藏层</h2>
+
+<p><strong>神经元（隐藏单元）</strong>
+- 简单来说，神经元可以理解为一个用来装数字的容器，而这个数称为激活值</p>
+
+<p>需要强调的是，激活值的值域取决于使用的激活函数，大多数激活函数的值域都是<strong>正值</strong></p>
+
+<pre><code>![](../assets/TIM截图20180701211429.png)
+&gt; 如果使用 sigmoid 激活函数，那么这个数字就在 0 到 1 之间；但通常来说，无论你使用哪种激活函数，这个数字都比较小
+</code></pre>
+
+<ul>
+<li><p>输入层也可以看做是一组神经元，它的激活值就是输入本身</p>
+
+<p><img src="../assets/TIM截图20180701211850.png" alt="" />
+<img src="../assets/TIM截图20180701214914.png" alt="" />
+&gt; 基本的神经网络只能处理向量型的输入，所以需要将这个 28*28 的像素图（矩阵），重排成长为 784 的向量
+&gt;
+&gt; 如果使用卷积神经网络，则可以直接处理矩阵型的输入</p></li>
+
+<li><p>对于分类问题，<strong>输出层</strong>中的激活值代表这个类别正确的可能性
+&gt; 如果使用了 <code>softmax</code> 函数，那么整个输出层可以看作每个类别的概率分布</p></li>
+
+<li><p>所谓的“<strong>神经元被激活</strong>”实际上就是它获得了一个较大的激活值</p>
+
+<p><img src="../assets/TIM截图20180701212340.png" alt="" /></p></li>
+</ul>
+
+<p><strong>隐藏层</strong>
+- 包含于输入层与输出层之间的网络层统称为“隐藏层”</p>
+
+<pre><code>![](../assets/TIM截图20180701212657.png)
+&gt; 在这个简单的网络中，有两个隐藏层，每层有 16 个神经元
+&gt;
+&gt; 为什么是两层和 16 个？——层数的大小与问题的复杂度有关，而神经元的数量目前来看是随机的——网络的结构在实验时有很大的调整余地
+</code></pre>
+
+<h2 id="神经网络的运作机制">神经网络的运作机制</h2>
+
+<ul>
+<li>神经网络在运作的时候，隐藏层可以视为一个“黑箱”</li>
+
+<li><p>每一层的激活值将通过某种方式计算出下一层的激活值——神经网络处理信息的核心机制</p>
+
+<p><img src="../assets/TIM截图20180701213151.png" alt="" />
+&gt; 每一层被激活的神经元不同，（可能）会导致下一层被激活的神经元也不同</p></li>
+</ul>
+
+<h2 id="为什么神经网络的分层结构能起作用"><strong>为什么神经网络的分层结构能起作用？</strong></h2>
+
+<ul>
+<li><p>人在初识数字时是如何区分的？——<strong>组合</strong>数字的各个部分</p>
+
+<p><img src="../assets/TIM截图20180702092532.png" alt="" /></p></li>
+
+<li><p><strong>在理想情况下</strong>，我们希望神经网络倒数第二层中的各隐藏单元能对应上每个<strong>基本笔画</strong>（pattern）</p>
+
+<p><img src="../assets/TIM截图20180702093050.png" alt="" /></p>
+
+<ul>
+<li>当输入是 9 或 8 这种<strong>顶部带有圆圈</strong>的数字时，某个神经元将被激活（激活值接近 1）</li>
+<li>不光是 9 和 8，所有顶部带有圆圈的图案都能激活这个隐藏单元</li>
+<li>这样从倒数第二层到输出层，我们的问题就简化成了“学习哪些部件能组合哪些数字”</li>
+</ul></li>
+
+<li><p>类似的，基本笔画也可以由更基础的部件构成</p>
+
+<p><img src="../assets/TIM截图20180702094246.png" alt="" /></p></li>
+
+<li><p><strong>理想情况下</strong>，神经网络的处理过程</p>
+
+<p><img src="../assets/TIM截图20180702094455.png" alt="" />
+&gt; 从输入层到输出层，<strong>网络的抽象程度越来越高</strong></p></li>
+</ul>
+
+<h2 id="深度学习的本质-通过组合简单的概念来表达复杂的事物"><strong>深度学习的本质：通过组合简单的概念来表达复杂的事物</strong></h2>
+
+<ul>
+<li><p>神经网络是不是这么做的，我们不得而知（所以是一个“黑箱”），但大量实验表明：神经网络确实在做类似的工作——<strong>通过组合简单的概念来表达复杂的事物</strong></p>
+
+<p><img src="../assets/TIM截图20180702095428.png" alt="" />
+&gt; 语音识别：原始音频 → 音素 → 音节 → 单词</p></li>
+</ul>
+
+<h2 id="隐藏单元是如何被激活的"><strong>隐藏单元是如何被激活的？</strong></h2>
+
+<ul>
+<li>我们需要设计一个机制，这个机制能够把像素拼成边，把边拼成基本图像，把基本图像拼成数字</li>
+<li>这个机制的基本处理方式是：通过上一层的单元激活下一层的单元</li>
+</ul>
+
+<p><strong>示例：如何使第二层的单个神经元识别出图像中的某块区域是否存在一条边</strong>
+- 根据激活的含义，当激活值接近 1 时，表示该区域存在一条边，反之不存在
+- <strong>怎样的数学公式能够表达出这个含义？</strong></p>
+
+<pre><code>![](../assets/TIM截图20180702112135.png)
+![](../assets/TIM截图20180702113031.png)
+![](../assets/TIM截图20180702113631.png)
+- 考虑对所有输入单元加权求和
+- 图中每条连线关联一个权值：绿色表示正值，红色表示负值，颜色越暗表示越接近 0
+- 此时，只需将需要关注的像素区域对应的权值设为正，其余为 0
+- 这样对所有像素的加权求和就只会累计我们关注区域的像素值
+- 为了使隐藏单元真正被“激活”，加权和还需要经过某个**非线性函数**，也就是“激活函数”
+- 早期最常用的激活函数是 `sigmoid` 函数（又称 logistic/逻辑斯蒂曲线）
+
+    ![](../assets/TIM截图20180702114132.png)
+    &gt; 从 `sigmoid` 的角度看，它实际上在对加权和到底有多“正”进行打分
+
+- 但有时，可能加权和大于 10 时激活才有意义；
+- 此时，需要加上“偏置”，保证不能随便激发，比如 -10。然后再传入激活函数
+</code></pre>
+
+<h3 id="权重和偏置">权重和偏置</h3>
+
+<ul>
+<li>每个隐藏单元都会和<strong>上一层的所有单元</strong>相连，每条连线上都关联着一个<strong>权重</strong>；</li>
+
+<li><p>每个隐藏单元又会各自带有一个<strong>偏置</strong>
+&gt; 偏置和权重统称为网络参数</p>
+
+<p><img src="../assets/TIM截图20180702150309.png" alt="" />
+<img src="../assets/TIM截图20180702151423.png" alt="" />
+&gt; 每一层都带有自己的权重与偏置，这样一个小小的网络，就有 13002 个参数</p></li>
+</ul>
+
+<h2 id="权重与偏置的实际意义"><strong>权重与偏置的实际意义</strong></h2>
+
+<ul>
+<li><p>宏观来看，<strong>权重</strong>在告诉你当前神经元应该更关注来自上一层的哪些单元；或者说<strong>权重指示了连接的强弱</strong></p></li>
+
+<li><p><strong>偏置</strong>则告诉你加权和应该多大才能使神经元的激发变得有意义；或者说<strong>当前神经元是否更容易被激活</strong></p></li>
+</ul>
+
+<h2 id="矢量化编程"><strong>矢量化编程</strong></h2>
+
+<ul>
+<li>把一层中所有的激活值作为一列<strong>向量</strong> <code>a</code></li>
+<li>层与层之间的权重放在一个<strong>矩阵</strong> <code>W</code> 中：第 n 行就是上层所有神经元与下层第 n 个神经元的权重</li>
+<li>类似的，所有偏置也作为一列<strong>向量</strong> <code>b</code></li>
+
+<li><p>最后，将 <code>Wa + b</code> 一起传入激活函数</p>
+
+<p><img src="../assets/TIM截图20180702155142.png" alt="" />
+&gt; <code>sigmoid</code>会对结果向量中的每个值都取一次<code>sigmoid</code></p></li>
+
+<li><p>所谓“矢量化编程”，实际上就是将向量作为基本处理单元，避免使用 for 循环处理标量</p></li>
+
+<li><p>通过定制处理单元（GPU运算），可以大幅加快计算速度</p></li>
+</ul>
+
+<h2 id="机器-学习-的实质"><strong>机器“学习”的实质</strong></h2>
+
+<p>当我们在讨论机器如何“学习”时，实际上指的是机器如何正确设置这些参数</p>
+
+<p><img src="../assets/TIM截图20180702152216.png" alt="" /></p>
+
+<h2 id="非线性激活函数">非线性激活函数</h2>
+
+<p><strong>神经网络本质上是一个函数</strong>
+- 每个神经元可以看作是一个函数，其输入是上一层所有单元的输出，然后输出一个激活值
+- 宏观来看，神经网络也是一个函数</p>
+
+<pre><code>![](../assets/TIM截图20180702151423.png)
+&gt; 一个输入 784 个值，输出 10 个值的函数；其中有 13000 个参数
+</code></pre>
+
+<ul>
+<li>早期最常用的激活函数是 <code>sigmoid</code> 函数，它是一个<strong>非线性函数</strong></li>
+<li>暂不考虑它其他优秀的性质（使其长期作为激活函数的首选）以及缺点（使其逐渐被弃用）；</li>
+</ul>
+
+<p>而只考虑其<strong>非线性</strong></p>
+
+<h2 id="为什么要使用非线性激活函数-神经网络的万能近似定理"><strong>为什么要使用非线性激活函数？——神经网络的万能近似定理</strong></h2>
+
+<blockquote>
+<p>视频中没有提到为什么使用非线性激活函数，但这确实是神经网络能够具有如此强大<strong>表示能力</strong>的关键
+- 使用<strong>非线性激活函数</strong>的目的是为了向网络中加入<strong>非线性因素</strong>，从而加强网络的表示能力</p>
+</blockquote>
+
+<p><strong>为什么加入非线性因素能够加强网络的表示能力？</strong>
+- 首先要有这样一个认识，非线性函数具有比线性函数更强的表示能力。
+- 如果不使用非线性激活函数，那么每一层输出都是上层输入的线性组合；</p>
+
+<p>容易验证，此时无论有多少层，神经网络都只是一个线性函数。</p>
+
+<p><strong>万能近似定理</strong>
+- 神经网络如果具有至少一个非线性输出层，那么只要给予网络足够数量的隐藏单元，它就可以以任意的精度来近似任何从一个有限维空间到另一个有限维空间的函数。
+- 这极大的扩展了神经网络的表示空间
+    &gt; 《深度学习》 6.4.1 万能近似性质和深度</p>
+
+<h2 id="新时代的激活函数-线性整流单元-relu"><strong>新时代的激活函数——线性整流单元 ReLU</strong></h2>
+
+<p>这里简单说下 sigmoid 的问题：
+- <code>sigmoid</code> 函数在输入取绝对值非常大的正值或负值时会出现<strong>饱和现象</strong>，此时函数会对输入的微小改变会变得不敏感</p>
+
+<pre><code>![](../assets/TIM截图20180702114132.png)
+&gt; 饱和现象：在图像上表现为函数值随自变量的变化区域平缓（斜率接近 0）
+</code></pre>
+
+<ul>
+<li>饱和现象会导致<strong>基于梯度的学习</strong>变得困难，并在传播过程中丢失信息（<strong>梯度消失</strong>）</li>
+</ul>
+
+<p><strong>线性整流单元 ReLU</strong></p>
+
+<ul>
+<li><p><a href="http://www.codecogs.com/eqnedit.php?latex=text{ReLU}(a)=max(0,a)"><img src="../assets/公式_20180702171411.png" alt="" /></a></p>
+
+<p><img src="../assets/TIM截图20180702171146.png" alt="" /></p></li>
+
+<li><p><code>ReLU</code> 取代 <code>sigmoid</code> 的主要原因就是：使神经网络更容易训练（<strong>减缓梯度消失</strong>）</p></li>
+
+<li><p>此外，一种玄学的说法是，早期引入 <code>sigmoid</code> 的原因之一就是为了模仿生物学上神经元的激发</p></li>
+</ul>
+
+<p>而 <code>ReLU</code> 比 <code>sigmoid</code> 更接近这一过程。</p>
+
+<h1 id="梯度下降法">梯度下降法</h1>
+
+<p>内容：
+- 梯度下降的思想
+- 网络的能力分析
+- 隐层神经元的真实目的</p>
+
+<p>网络示例依然是那个手写识别的例子：</p>
+
+<p><img src="../assets/TIM截图20180701210407.png" alt="" /></p>
+
+<h2 id="神经网络是怎样学习的"><strong>神经网络是怎样学习的？</strong></h2>
+
+<ul>
+<li>我们需要一种算法：通过喂给这个网络大量的<strong>训练数据</strong>——不同的手写数字图像以及对应的数字标签</li>
+</ul>
+
+<p>算法会调整所有网络参数（权重和偏置）来提高网络对训练数据的表现</p>
+
+<p>此外，我们还希望这种分层结构能够举一反三，识别训练数据之外的图像——<strong>泛化能力</strong></p>
+
+<ul>
+<li>虽然使用了“学习”的说法，但实际上训练的过程更像在解一道<strong>微积分问题</strong></li>
+</ul>
+
+<p>训练的过程实际上在寻找某个函数的（局部）最小值</p>
+
+<ul>
+<li>在训练开始前，这些参数是随机初始化的
+&gt; 确实存在一些随机初始化的策略，但目前来看，都只是“锦上添花”</li>
+</ul>
+
+<h2 id="损失函数-loss-function">损失函数（Loss Function）</h2>
+
+<ul>
+<li>显然，随机初始化不会有多好的表现</li>
+<li>此时需要定义一个“<strong>损失函数</strong>”来告诉计算机：正确的输出应该只有标签对应的那个神经元是被激活的</li>
+<li>比如这样定义单个样本的损失：</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180702194825.png" alt="" />
+  <img src="../assets/TIM截图20180702195301.png" alt="" />
+  - 当网络分类正确时，这个值就越小
+  - 这里使用的损失函数为“均方误差”（mean-square error, MSE）</p>
+
+<ul>
+<li>现在，我们就可以用<strong>所有训练样本</strong>的平均损失来评价整个网络在这个任务上的“<strong>糟糕程度</strong>”
+&gt; 在实践中，并不会每次都使用所有训练样本的平均损失来调整梯度，这样计算量太大了
+&gt;
+&gt; 随机梯度下降</li>
+</ul>
+
+<p>实际上，<strong>神经网络学习的过程，就是最小化损失函数的过程</strong></p>
+
+<p><strong>神经网络与损失函数的关系</strong>
+- 神经网络本身相当于一个函数</p>
+
+<p><img src="../assets/TIM截图20180702195902.png" alt="" />
+  &gt; 输入是一个向量，输出是一个向量，参数是所有权重和偏置</p>
+
+<ul>
+<li>损失函数在神经网络的基础上，还要再抽象一层：</li>
+</ul>
+
+<p>所有权重和偏置作为它的输入，输出是单个数值，表示当前网络的性能；参数是所有训练样例（？）</p>
+
+<p><img src="../assets/TIM截图20180702201513.png" alt="" /></p>
+
+<ul>
+<li>从这个角度看，损失函数并不是神经网络的一部分，而是训练神经网络时需要用到的工具</li>
+</ul>
+
+<h2 id="梯度下降法-gradient-descent">梯度下降法（Gradient Descent）</h2>
+
+<p><strong>如何优化这些网络参数？</strong>
+- 能够判断网络的“糟糕程度”并不重要，关键是如何利用它来<strong>优化</strong>网络参数</p>
+
+<p><strong>示例 1：考虑只有一个参数的情况</strong>
+- 如果函数只有一个极值点，那么直接利用微积分即可</p>
+
+<p>如果函数很复杂的话，问题就不那么直接了，更遑论上万个参数的情况</p>
+
+<p><img src="../assets/TIM截图20180702202810.png" alt="" />
+  <img src="../assets/TIM截图20180702203041.png" alt="" /></p>
+
+<ul>
+<li><strong>一个启发式的思路是</strong>：先随机选择一个值，然后考虑向左还是向右，函数值会减小；</li>
+</ul>
+
+<p>准确的说，如果你找到了函数在该点的斜率，<strong>斜率为正就向左移动一小步，反之向右</strong>；</p>
+
+<p>然后每新到一个点就重复上述过程——计算新的斜率，根据斜率更新位置；</p>
+
+<p>最后，就可能逼近函数的某个<strong>局部极小值</strong>点</p>
+
+<p><img src="../assets/TIM截图20180702203401.png" alt="" /></p>
+
+<ul>
+<li>这个想法最明显的问题是：由于无法预知最开始的值在什么位置，导致最终会到达不同的局部极小值；</li>
+</ul>
+
+<p>关键是无法保证落入的局部极小值就是损失函数可能达到的全局最小值；</p>
+
+<p>这也是神经网络最大的问题：</p>
+
+<p><img src="../assets/TIM截图20180702204047.png" alt="" /></p>
+
+<p><strong>示例 2：考虑两个参数的情况</strong>
+- 输入空间是一个 XY 平面，代价函数是平面上方的曲面</p>
+
+<p>此时的问题是：在输入空间沿哪个方向移动，能使输出结果下降得最快</p>
+
+<p><img src="../assets/TIM截图20180702210202.png" alt="" /></p>
+
+<ul>
+<li>如果你熟悉<strong>多元微积分</strong>，那么应该已经有了答案：</li>
+</ul>
+
+<p>函数的<strong>梯度</strong>指出了函数的“<strong>最陡</strong>”增长方向，即沿着梯度的方向走，函数增长最快；</p>
+
+<p>换言之，<strong>沿梯度的负方向走，函数值也就下降得最快</strong>；</p>
+
+<p>此外，梯度向量的长度还代表了斜坡的“陡”的程度。</p>
+
+<ul>
+<li>处理更多的参数也是同样的办法，</li>
+</ul>
+
+<p>这种<strong>按照负梯度的倍数</strong>，不断调整函数输入值的过程，就叫作梯度下降法</p>
+
+<ul>
+<li>直观来看，梯度下降法能够让函数值收敛到损失函数图像中的某一个“坑”中</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180703102940.png" alt="" /></p>
+
+<h3 id="理解梯度下降法的另一种思路">理解梯度下降法的另一种思路</h3>
+
+<ul>
+<li><p>梯度下降法的一般处理方式：</p>
+
+<ul>
+<li>将所有网络参数放在一个列向量中，那么损失函数的负梯度也是一个向量</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180703103735.png" alt="" /></p></li>
+
+<li><p>负梯度中的每一项实际传达了两个信息</p>
+
+<ol>
+<li>正负号在告诉输入向量应该调大还是调小——因为是<strong>负梯度</strong>，所以正好对应调大，负号调小</li>
+<li>每一项的相对大小表明每个输入值对函数值的影响程度；换言之，也就是调整各权重对于网络的影响
+<br /></li>
+</ol>
+
+<p><img src="../assets/TIM截图20180703103757.png" alt="" />
+ <img src="../assets/TIM截图20180703104845.png" alt="" /></p></li>
+
+<li><p>宏观来看，可以把梯度向量中的每个值理解为各参数（权重和偏置）的相对重要度，</p></li>
+</ul>
+
+<p>同时指出了改变其中哪些参数的<strong>性价比</strong>最高</p>
+
+<ul>
+<li>这个理解思路同样可以反馈到图像中</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180703105249.png" alt="" />
+  - 一种思路是在点 <code>(1,1)</code> 处沿着 <code>[3,1]</code> 方向移动，函数值增长最快
+  - 另一种解读就是变量 <code>x</code> 的重要性是 <code>y</code> 的三倍；</p>
+
+<pre><code>也就是说，至少在这个点附近，改变 `x` 会造成更大的影响
+</code></pre>
+
+<h2 id="梯度下降法-描述"><strong>梯度下降法</strong>描述：</h2>
+
+<ol>
+<li>计算损失函数对所有参数的（负）梯度</li>
+<li>按梯度的负方向下降一定步长（直接加上负梯度）</li>
+<li>重复以上步骤，直到满足精度要求</li>
+</ol>
+
+<ul>
+<li>其中计算梯度的算法——<a href="#3-反向传播算法backpropagation-algorithm">反向传播算法</a>——是整个神经网络的核心</li>
+</ul>
+
+<p><strong>梯度下降法</strong>与<strong>反向传播算法</strong>
+- 梯度下降法是寻找局部最小值的一种<strong>策略</strong></p>
+
+<p>其中最核心的部分利用<strong>损失函数 <code>L(θ)</code> 的梯度</strong>来更新所有参数 <code>θ</code></p>
+
+<ul>
+<li><strong>反向传播算法</strong>是求解函数梯度的一种方法；</li>
+</ul>
+
+<p>其本质上是利用<strong>链式法则</strong>对每个参数求偏导</p>
+
+<p><strong>损失函数的平滑性</strong>
+- 为了能达到函数的局部最小值，损失函数有必要是<strong>平滑</strong>的</p>
+
+<p>只有如此，损失函数才能基于梯度下降的方法，找到一个局部最小值</p>
+
+<ul>
+<li>这也解释了为什么要求神经元的激活值是连续的
+&gt; 生物学中的神经元是二元式的</li>
+</ul>
+
+<h3 id="随机梯度下降-stochastic-gradient-descent">随机梯度下降（Stochastic Gradient Descent）</h3>
+
+<ul>
+<li>基本的梯度下降法要求每次使用<strong>所有训练样本</strong>的平均损失来更新参数，也称为“<strong>批量梯度下降</strong>”</li>
+</ul>
+
+<p>原则上是这样，但是为了<strong>计算效率</strong>，实践中并不会这么做</p>
+
+<ul>
+<li><p>一种常用的方法是每次只随机选取<strong>单个样本</strong>的损失来计算梯度，该方法称为“<strong>随机梯度下降</strong>”（Stochastic Gradient Descent, SGD），它比批量梯度下降法要快得多</p></li>
+
+<li><p>但更常用的方法是<strong>小批量梯度下降</strong>，它每次随机选取<strong>一批样本</strong>，然后基于它们的平均损失来更新参数</p></li>
+
+<li><p>SGD 与 小批量梯度下降的优势在于：它们的计算复杂度与训练样本的数量无关
+&gt; 很多情况下，并不区分 SGD 和小批量梯度下降；有时默认 SGD 就是小批量梯度下降，比如本视频</p></li>
+</ul>
+
+<p><strong>批大小的影响</strong>：
+- <strong>较大的批能得到更精确的梯度估计</strong>，但回报是小于线性的。
+- <strong>较小的批能带来更好的泛化误差</strong>，泛化误差通常在批大小为 1 时最好。但是，因为梯度估计的高方差，小批量训练需要<strong>较小的学习率</strong>以保持稳定性，这意味着<strong>更长的训练时间</strong>。
+  &gt; 原因可能是由于小批量在学习过程中加入了噪声，它们会有一些正则化效果 (Wilson and Martinez, 2003)
+- <strong>内存消耗和批的大小成正比</strong>，当批量处理中的所有样本可以并行处理时。
+- 在某些硬件上使用特定大小可以减少运行时间。尤其是在使用 GPU 时，通常使用 <strong>2 的幂数</strong>作为批量大小可以获得更少的运行时间。一般，2 的幂数的<strong>取值范围是 32 到 256</strong>，16 有时在尝试大模型时使用。</p>
+
+<blockquote>
+<p>《深度学习》 8.1.3 批量算法和小批量算法</p>
+</blockquote>
+
+<h2 id="神经网络的优化难题"><strong>神经网络的优化难题</strong></h2>
+
+<ul>
+<li>有一个策略可以保证最终解<strong>至少</strong>能到达一个局部极小值点：使每次<strong>移动的步幅和斜率成正比</strong>；</li>
+</ul>
+
+<p>因为在最小值附近的斜率会趋于平缓，这将导致每次移动步幅越来越小，防止跳出极值点</p>
+
+<p><strong>但是</strong>，这对于现代各种巨大的神经网络而言，是一个<strong>负优化策略</strong>——它反而会<strong>限制网络的学习</strong>，导致其陷入某个局部极小值点</p>
+
+<ul>
+<li><p>当参数数量非常庞大时，可能存在<strong>无数个极值点</strong>，而其中某些极值点的结果可能非常差。
+&gt; 优化问题是深度学习最核心的两个问题之一，另一个是正则化</p></li>
+
+<li><p>也不要太过担心因为局部最小值点太多而无法优化；</p></li>
+</ul>
+
+<p>事实上，只要你使用的数据不是完全随机，或者说有一定结构，那么最终网络倾向收敛到的各个局部最小值点，实际上都差不多</p>
+
+<p>你可以认为如果数据集已经<strong>结构化</strong>了，那么你可以更轻松的找到局部最小值点
+  &gt; [1412.0233] The Loss Surfaces of Multilayer Networks <a href="https://arxiv.org/abs/1412.0233">https://arxiv.org/abs/1412.0233</a></p>
+
+<h2 id="再谈神经网络的运作机制">再谈神经网络的运作机制</h2>
+
+<ul>
+<li>在第一章介绍<a href="#12-神经网络的运作机制权重偏置激活函数">神经网络的运作机制</a>时，我们对神经网络的<strong>期望</strong>是：</li>
+</ul>
+
+<p>第一个隐藏层能够识别短边，第二个隐藏层能够将短边拼成圆圈等基本笔画，最后将这些部件拼成数字</p>
+
+<p><img src="../assets/TIM截图20180702094455.png" alt="" /></p>
+
+<ul>
+<li>利用<strong>权重与所有输入像素对应相乘</strong>的方法，可以还原每个神经元对应的图案</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180703115843.png" alt="" />
+  <img src="../assets/TIM截图20180703115823.png" alt="" />
+  &gt; 期望（左）与现实（右）</p>
+
+<ul>
+<li>事实上，与其说它们能识别各种散落的短边，它们不过都是一些松散的图案</li>
+</ul>
+
+<p>就像“在如深海般的 13000 维参数空间中，找到了一个不错的局部最小值位置住了下来”</p>
+
+<p>尽管它们能成功识别大部分手写数字，但它不像我们期望的能识别各种图案的基本部件</p>
+
+<ul>
+<li>一个明显的例子：传入一张随机的图案</li>
+</ul>
+
+<p>如果神经网络真的很“智能”，它应该对这个输入感到困惑——10个输出单元都没有明确的激活值</p>
+
+<p>但实际上，它总会会给出一个确切的答案</p>
+
+<p><img src="../assets/TIM截图20180703121303.png" alt="" />
+  &gt; 它能将一张真正的 &ldquo;5&rdquo; 识别成 5，也能把一张随机的噪声识别成 5</p>
+
+<ul>
+<li>或者说，这个神经网络<strong>知道怎么识别数字，但它不知道怎么写数字</strong></li>
+</ul>
+
+<p>原因可能是，很大程度上它的训练被限制在了一个很窄的框架内；</p>
+
+<p>“从神经网络的视角来看，整个世界都是由网络内清晰定义的静止数字组成的，它的损失函数只会促使它对最后的判断有绝对的自信。”</p>
+
+<ul>
+<li><p>有一些观点认为，神经网络/深度学习并没有那么智能，它只是<strong>记住了所有正确分类的数据</strong>，然后<strong>尽量</strong>把那些跟训练数据类似的数据分类正确</p></li>
+
+<li><p>但是，有些观点认为神经网络确实学到了某些更智能的东西：</p></li>
+</ul>
+
+<p>如果训练时使用的是随机的数据，那么损失函数的下降会很慢，而且是接近线性的过程；也就是说网络很难找到可能存在的局部最小值点；</p>
+
+<p>但如果你使用了<strong>结构化</strong>的数据，虽然一开始的损失会上下浮动，但接下来会快速下降；也就是很容易就找到了某个局部最小值——这表明神经网络能更快学习<strong>结构化的数据</strong>。</p>
+
+<p><img src="../assets/TIM截图20180703143800.png" alt="" /></p>
+
+<h2 id="推荐阅读">推荐阅读</h2>
+
+<ul>
+<li>Neural Networks and Deep Learning: <a href="http://neuralnetworksanddeeplearning.com/">http://neuralnetworksanddeeplearning.com/</a></li>
+<li>Chris Olah&rsquo;s blog: <a href="http://colah.github.io/">http://colah.github.io/</a>
+
+<ul>
+<li><a href="http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Neural Networks, Manifolds, and Topology</a></li>
+<li><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></li>
+</ul></li>
+<li>Distill — Latest articles about machine learning <a href="https://distill.pub/">https://distill.pub/</a></li>
+<li>Videos on machine learning:
+
+<ul>
+<li>Learning To See [Part 1: Introduction] - YouTube <a href="https://www.youtube.com/watch?v=i8D90DkCLhI">https://www.youtube.com/watch?v=i8D90DkCLhI</a></li>
+<li>Neural Networks Demystified [Part 1: Data and Architecture] - YouTube <a href="https://www.youtube.com/watch?v=bxe2T-V8XRs">https://www.youtube.com/watch?v=bxe2T-V8XRs</a></li>
+</ul></li>
+</ul>
+
+<h1 id="反向传播算法-backpropagation-algorithm-bp">反向传播算法（Backpropagation Algorithm, BP）</h1>
+
+<h2 id="反向传播的直观理解">反向传播的直观理解</h2>
+
+<ul>
+<li>梯度下降法中需要用到损失函数的梯度来决定下降的方向，</li>
+</ul>
+
+<p>其中 BP 算法正是用于求解这个复杂梯度的一种方法</p>
+
+<ul>
+<li>在阐述 BP 算法之前，记住<a href="#221-理解梯度下降法的另一种思路不借助空间图像">梯度的另一种理解方式</a>——</li>
+</ul>
+
+<p><strong>梯度向量中的每一项不光告诉我们每个参数应该增大还是减小，还指示了调整每个参数的“性价比”</strong></p>
+
+<p><img src="../assets/TIM截图20180703103757.png" alt="" /></p>
+
+<h2 id="示例-单个训练样本对参数调整的影响"><strong>示例：单个训练样本对参数调整的影响</strong></h2>
+
+<ul>
+<li>假设现在的网络还没有训练好，那么输出层的激活值看起来会很随机</li>
+</ul>
+
+<p>而我们希望的输出应该是正确类别对应的输出值最大，其他尽可能接近 0</p>
+
+<p>因此，我们希望正确类别对应的激活值应该增大，而其他都减小
+  &gt; 需要注意的是，激活值是由输入值和权重及偏置决定的；网络不会调整激活值本身，只能改变权重和偏置</p>
+
+<ul>
+<li>一个简单的<strong>直觉</strong>是：激活值<strong>变动的幅度</strong>应该与<strong>当前值和目标值之间的误差</strong>成正比</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180703210401.png" alt="" />
+  <img src="../assets/TIM截图20180703210941.png" alt="" />
+  &gt; 我们希望第三个输出值增大，其他减小
+  &gt;
+  &gt; 显然，这里增加 &ldquo;2&rdquo; 的激活值比减少 &ldquo;8&rdquo; 的激活值更重要；因为后者已经接近它的目标了</p>
+
+<ul>
+<li>激活值的计算公式指明了调整的方向</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704095607.png" alt="" /></p>
+
+<ul>
+<li>以 &ldquo;2&rdquo; 对应的神经元为例，如果需要<strong>增大当前激活值</strong>，可以：
+
+<ol>
+<li>增大偏置</li>
+<li>增大权重</li>
+<li>调整上一层的激活值
+&gt; 如果使用的是 <code>sigmoid</code> 或 <code>ReLU</code> 作为激活函数，那么激活值都 <code>≥ 0</code>；但无论激活值正负，都是类似的调整方法</li>
+</ol></li>
+</ul>
+
+<p><strong>如何调整权重和偏置？</strong>
+- 偏置只关注当前神经元，因此，可以正比于当前值和目标值之间的差来调整偏置
+- 权重指示了连接的强弱；换言之，与之相连的上层激活值越大，那么该权重对当前神经元的影响也越大。显然，着重调整这个参数的性价比更高</p>
+
+<p>因此，可以正比于与之关联的上层激活值来调整权重</p>
+
+<ul>
+<li>这种学习的<strong>偏好</strong>将导致这样一个结果——<strong>一同激活的神经元被关联在一起</strong>；生物学中，称之为“赫布理论”（Hebbian theory）</li>
+</ul>
+
+<p>这在深度学习中，并不是一个广泛的结论，只是一个粗略的对照；事实上，早期的神经网络确实在模仿生物学上大脑的工作；但深度学习兴起之后，其指导思想已经发生了重要转变——<strong>组合表示</strong></p>
+
+<p><strong>如何改变上层激活值？</strong>
+- 因为权重带有正负，所以如果希望增大当前激活值，应该使所有通过<strong>正权</strong>连接的上层激活值增大，所有通过<strong>负权</strong>连接的上层激活值减小</p>
+
+<ul>
+<li>类似的，与修改权重时类似，如果想造成更大的影响，应该对应权重的大小来对激活值做出<strong>成比例</strong>的改变；</li>
+</ul>
+
+<p>但需要注意的是，上层激活值的大小也是由上层的权重和偏置决定的，</p>
+
+<ul>
+<li>所以更准确的说法是，每层的权重和偏置会根据下一层的权重和偏置来做出成比例的改变，而最后一层的权重个偏置会根据<strong>当前值和目标值之间的误差</strong>来成比例调整</li>
+</ul>
+
+<p><strong>反向传播</strong>
+- 除了需要增大正确的激活值，同时还要减小错误的。而这些神经元对于如何改变上一层的激活值都有各自的想法；</p>
+
+<p>因此，需要将这些神经元的期待全部相加，作为改变上层神经元的指示；</p>
+
+<p>这些期待变化，不仅对应权重的倍数，也是每个神经元激活值改变量的倍数。</p>
+
+<p><img src="../assets/TIM截图20180704111141.png" alt="" /></p>
+
+<ul>
+<li>这其实就是在实现“反向传播”的理念了——</li>
+</ul>
+
+<p>将所有期待的改变相加，就得到了希望对上层改动的变化量；然后就可以重复这个过程，直到第一层</p>
+
+<ul>
+<li>上面只是讨论了单个样本对所有参数的影响，实践时，需要同时考虑每个样本对权重与偏置的修改，然后将它们期望的平均作为每个参数的变化量；</li>
+</ul>
+
+<p>不严格的来说，这就是梯度下降中的需要的“<strong>负梯度</strong>”</p>
+
+<p><img src="../assets/TIM截图20180704111911.png" alt="" />
+  <img src="../assets/TIM截图20180704112743.png" alt="" />
+  &gt; <code>η</code> 表示倍数</p>
+
+<h3 id="bp-算法小结">BP 算法小结</h3>
+
+<ul>
+<li>反向传播算法计算的是<strong>单个训练样本</strong>对所有权重和偏置的调整——包括每个参数的正负变化以及<strong>变化的比例</strong>——使其能最快的降低损失。</li>
+<li>真正的梯度下降需要对训练集中的每个样本都做一次反向传播，然后计算平均变化值，继而更新参数。</li>
+</ul>
+
+<p>但这么操作会导致算法的复杂度与训练样本的数量相关。</p>
+
+<ul>
+<li>实践时，会采用“<strong>随机梯度下降</strong>”的策略：
+
+<ol>
+<li>首先打乱所有样本；</li>
+<li>然后将所有样本分发到各个 mini-batch 中；</li>
+<li>计算每个 mini-batch 的梯度，调整参数</li>
+<li>循环至 Loss 值基本不再变化</li>
+</ol></li>
+</ul>
+
+<p>最终神经网络将会收敛到某个局部最小值上</p>
+
+<h3 id="相关代码">相关代码</h3>
+
+<ul>
+<li>mnielsen/neural-networks-and-deep-learning/<a href="https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/network.py">network.py</a></li>
+</ul>
+
+<h2 id="反向传播的微积分原理">反向传播的微积分原理</h2>
+
+<p>从数学的角度看，反向传播本质上就是<strong>利用链式法则求导</strong>的过程；</p>
+
+<p>本节的目标是展示机器学习领域是如何理解链式法则的。</p>
+
+<h3 id="示例-每层只有一个神经元的网络">示例：每层只有一个神经元的网络</h3>
+
+<p><img src="../assets/TIM截图20180704161115.png" alt="" /></p>
+
+<ul>
+<li>从最后两个神经元开始：</li>
+</ul>
+
+<p>记最后一个神经元的激活值为 <code>a^(L)</code> 表示在第 L 层，上层的激活值为 <code>a^(L-1)</code>；</p>
+
+<p>给定一个训练样本，其目标值记为 <code>y</code>；</p>
+
+<p>则该网络对于单个训练样本的损失，可以表示为：</p>
+
+<p><img src="../assets/TIM截图20180704193558.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704162743.png)](http://www.codecogs.com/eqnedit.php?latex=C_0(\theta)=(a^{(L)}-y)^2)
+  >`θ` 为代价函数的参数，表示网络中所有权值和偏置 --></p>
+
+<p>其中</p>
+
+<p><img src="../assets/TIM截图20180704193742.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704163428.png)](http://www.codecogs.com/eqnedit.php?latex=a^{(L)}=\sigma(w^{(L)}a^{(L-1)}&plus;b^{(L)})) --></p>
+
+<p>为了方便，记加权和为 <code>z</code>，于是有</p>
+
+<p><img src="../assets/TIM截图20180704193955.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704163659.png)](http://www.codecogs.com/eqnedit.php?latex=z^{(L)}=w^{(L)}a^{(L-1)}&plus;b^{(L)}) --></p>
+
+<ul>
+<li>整个流程可以概括为：</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704164022.png" alt="" />
+  - 先使用前一个激活值和权重 <code>w</code> 以及偏置 <code>b</code> 计算出 <code>z</code>
+  - 再将 <code>z</code> 传入激活函数计算出 <code>a</code>
+  - 最后利用 <code>a</code> 和目标值 <code>y</code> 计算出损失</p>
+
+<ul>
+<li>我们的目标是理解<strong>代价函数对于参数的变化有多敏感</strong>；</li>
+</ul>
+
+<p>从微积分的角度来看，这实际上就是在<strong>求损失函数对参数的导数</strong>。</p>
+
+<ul>
+<li>以 <code>w^(L)</code> 为例，求 <code>C</code> 对 <code>w^(L)</code>的（偏）导数，记作：</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704194111.png" alt="" />
+  &gt; 把 <code>∂w^(L)</code> 看作对 <code>w</code> 的微小扰动，比如 0.001；把 <code>∂C</code> 看作“<strong>改变 <code>w</code> 对 <code>C</code> 造成的变化</strong>”</p>
+
+<p><!-- [![](../assets/公式_20180704170039.png)](http://www.codecogs.com/eqnedit.php?latex=\frac{\partial&space;C_0}{\partial&space;w^{(L)}}) --></p>
+
+<p>这实际上就是在计算 <code>C</code> 对 <code>w^(L)</code> 的微小变化有多敏感；
+  &gt; 3B1B - <a href="./微积分的本质.md">微积分系列视频</a></p>
+
+<ul>
+<li>根据链式法则，有</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704194548.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704170404.png)](http://www.codecogs.com/eqnedit.php?latex=\frac{\partial&space;C_0}{\partial&space;w^{(L)}}=\frac{\partial&space;C_0}{\partial&space;a^{(L)}}\frac{\partial&space;a^{(L)}}{\partial&space;z^{(L)}}\frac{\partial&space;z^{(L)}}{\partial&space;w^{(L)}}) --></p>
+
+<ul>
+<li>进一步分解到每个比值，有</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704194635.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704171334.png)](http://www.codecogs.com/eqnedit.php?latex=\begin&space;{aligned}&space;\frac{\partial&space;C_0}{\partial&space;w^{(L)}}&space;&=\frac{\partial&space;C_0}{\partial&space;a^{(L)}}\frac{\partial&space;a^{(L)}}{\partial&space;z^{(L)}}\frac{\partial&space;z^{(L)}}{\partial&space;w^{(L)}}\\&space;&=2(a^{(L)}-y)\cdot&space;\sigma%27(z^{(L)})\cdot&space;a^{(L-1)}&space;\end{aligned}) --></p>
+
+<ul>
+<li>类似的，对偏置的偏导：</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704194726.png" alt="" /></p>
+
+<p>对上层激活值的偏导：</p>
+
+<p><img src="../assets/TIM截图20180704200743.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704173348.png)](http://www.codecogs.com/eqnedit.php?latex=\begin&space;{aligned}&space;\frac{\partial&space;C_0}{\partial&space;b^{(L)}}&space;&=\frac{\partial&space;C_0}{\partial&space;a^{(L)}}\frac{\partial&space;a^{(L)}}{\partial&space;z^{(L)}}\frac{\partial&space;z^{(L)}}{\partial&space;b^{(L)}}\\&space;&=2(a^{(L)}-y)\cdot&space;\sigma%27(z^{(L)})\cdot&space;1&space;\end{aligned}) --></p>
+
+<p><!-- [![](../assets/公式_20180704173511.png)](http://www.codecogs.com/eqnedit.php?latex=\begin&space;{aligned}&space;\frac{\partial&space;C_0}{\partial&space;a^{(L-1)}}&space;&=\frac{\partial&space;C_0}{\partial&space;a^{(L)}}\frac{\partial&space;a^{(L)}}{\partial&space;z^{(L)}}\frac{\partial&space;z^{(L)}}{\partial&space;a^{(L-1)}}\\&space;&=2(a^{(L)}-y)\cdot&space;\sigma%27(z^{(L)})\cdot&space;w^{(L)}&space;\end{aligned}) --></p>
+
+<ul>
+<li>更上层的权重与偏置也是类似的方法，只是链的长度会更长而已</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704174134.png" alt="" /></p>
+
+<ul>
+<li>一个直观的理解，考虑将它们分别对应到一个数轴上；
+<br /></li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704165624.png" alt="" />
+  - <code>w^(L)</code> 的微小变化会导致 <code>z^(L)</code> 的微小变化
+  - <code>z^(L)</code> 的微小变化会导致 <code>a^(L)</code> 的微小变化
+  - <code>a^(L)</code> 的微小变化最终会影响到损失值 <code>C</code>
+  - 反向传播的过程就是将 <code>C</code> 的微小变化传回去</p>
+
+<ul>
+<li>以上只是单个训练的损失对 <code>w^(L)</code> 的导数，实践中需要求出一个 mini-batch 中所有样本的平均损失</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704194944.png" alt="" /></p>
+
+<p><!-- [![](../assets/公式_20180704171742.png)](http://www.codecogs.com/eqnedit.php?latex=\begin&space;{aligned}&space;\frac{\partial&space;C}{\partial&space;w^{(L)}}=\frac{1}{n}\sum^{n-1}_{k=0}\frac{\partial&space;C_k}{\partial&space;w^{(L)}}&space;\end{aligned}) --></p>
+
+<ul>
+<li>进一步的，<code>∂C/∂w^(L)</code> 只是梯度向量 <code>▽C</code> 的一个分量；</li>
+</ul>
+
+<p>而梯度向量本身有损失函数对每个参数的偏导构成：</p>
+
+<p><img src="../assets/TIM截图20180704172524.png" alt="" /></p>
+
+<blockquote>
+<p>本系列视频称损失函数为“代价函数”，所以使用 <code>C</code> 表示代价（Cost）；更多会用 <code>L</code> 表示损失（Loss）；二者没有区别，但这里已经使用 L 表示网络的层数，所以使用 <code>C</code> 表示损失函数</p>
+</blockquote>
+
+<h3 id="更复杂的示例">更复杂的示例</h3>
+
+<ul>
+<li>更复杂的神经网络在公式上并没有复杂很多，只有少量符号的变化</li>
+<li>首先，利用<strong>下标</strong>来区分同一层不同的神经元和权重</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180704195120.png" alt="" /></p>
+
+<p>以下的推导过程几乎只是符号的改变：</p>
+
+<p><img src="../assets/TIM截图20180704195859.png" alt="" /></p>
+
+<p>然后求偏导：</p>
+
+<p><img src="../assets/TIM截图20180704200316.png" alt="" /></p>
+
+<p>唯一改变的是，对 <code>(L-1)</code> 层的偏导：</p>
+
+<p><img src="../assets/TIM截图20180704200453.png" alt="" />
+  &gt; 此时激活值可以通过不同的途径影响损失函数</p>
+
+<p>只要计算出倒数第二层损失函数对激活值的敏感度，就可以重复以上过程，计算喂给倒数第二层的权重和偏置。</p>
+
+<ul>
+<li><p>事实上，如果都使用矢量表示，那么整个推导公式跟单神经元的网络几乎是完全一样的</p></li>
+
+<li><p>链式法则给出了决定梯度每个分量的偏导，使我们能不断下探，最小化神经网络的损失。</p></li>
+</ul>
+
+<h3 id="反向传播的-4-个基本公式">反向传播的 4 个基本公式</h3>
+
+<ul>
+<li><strong>问题描述</strong>：</li>
+</ul>
+
+<p>反向传播算法的目标是求出损失函数<strong>对所有参数的梯度</strong>，具体可分解为<strong>对每个权重和偏置的偏导</strong></p>
+
+<p>可以用 4 个公式总结反向传播的过程</p>
+
+<ul>
+<li><strong>标量形式</strong>：</li>
+</ul>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{partial&amp;space;{color{Red}&amp;space;a_j^{(L)}}}=frac{partial&amp;space;C({color{Red}&amp;space;a_j^{(L)}},y_j)}{partial&amp;space;{color{Red}&amp;space;a_j^{(L)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705190236.png" alt="" /></a></p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{{color{Red}&amp;space;partial&amp;space;a_j^{(l)}}}={color{Teal}sum_{k=0}^{n_l-1}}&amp;space;frac{partial&amp;space;z_k^{(l&amp;plus;1)}}{{color{Red}&amp;space;partial&amp;space;a_j^{(l)}}}&amp;space;frac{{color{Blue}&amp;space;partial&amp;space;a_k^{(l&amp;plus;1)}}}{partial&amp;space;z_k^{(l&amp;plus;1)}}&amp;space;frac{partial&amp;space;C}{{color{Blue}&amp;space;partial&amp;space;a_k^{(l&amp;plus;1)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705134851.png" alt="" /></a></p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{{color{Magenta}&amp;space;partial&amp;space;w_{j,k}^{(l)}}}=frac{partial&amp;space;z_j^{(l)}}{{color{Magenta}&amp;space;partial&amp;space;w_{j,k}^{(l)}}}frac{{color{Red}partial&amp;space;a_j^{(l)}}}{partial&amp;space;z_j^{(l)}}frac{partial&amp;space;C}{{color{Red}partial&amp;space;a_j^{(l)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705154543.png" alt="" /></a></p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{{color{Magenta}&amp;space;partial&amp;space;b_{j}^{(l)}}}=frac{partial&amp;space;z_j^{(l)}}{{color{Magenta}&amp;space;partial&amp;space;b_{j}^{(l)}}}frac{{color{Red}partial&amp;space;a_j^{(l)}}}{partial&amp;space;z_j^{(l)}}frac{partial&amp;space;C}{{color{Red}partial&amp;space;a_j^{(l)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705154650.png" alt="" /></a></p>
+
+<blockquote>
+<p>其中，上标 <code>(l)</code> 表示网络的层次，<code>(L)</code> 表示输出层（最后一层）；下标 <code>j</code> 和 <code>k</code> 指示神经元的位置；</p>
+
+<p><code>w_jk</code> 表示 <code>l</code> 层的第 <code>j</code> 个神经元与<code>(l-1)</code>层第 <code>k</code> 个神经元连线上的权重</p>
+</blockquote>
+
+<p>以 <strong>均方误差（MSE）</strong> 损失函数为例，有</p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{partial&amp;space;{color{Red}&amp;space;a_j^{(L)}}}&amp;=frac{partial&amp;space;C({color{Red}&amp;space;a_j^{(L)}},y_j)}{partial&amp;space;{color{Red}&amp;space;a_j^{(L)}}}&amp;space;\&amp;space;&amp;=frac{partial&amp;space;left&amp;space;(&amp;space;frac{1}{2}({color{Red}a_j^{(L)}}-y_j)^2&amp;space;right&amp;space;)&amp;space;}{partial&amp;space;{color{Red}a_j^{(L)}}}={color{Red}a_j^{(L)}}-y&amp;space;end{aligned}"><img src="../assets/公式_20180705190536.png" alt="" /></a></p>
+
+<p>根据以上公式，就可以反向求出所有损失函数对所有参数的偏导了</p>
+
+<ul>
+<li><strong>矢量形式</strong>：</li>
+</ul>
+
+<p>在标量形式的基础上，修改下标即可</p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{&amp;space;partial&amp;space;{color{Red}&amp;space;a_j^{(L)}}}=frac{partial&amp;space;C({color{Red}&amp;space;a_j^{(L)}},y_j)}{partial&amp;space;{color{Red}&amp;space;a_j^{(L)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705190657.png" alt="" /></a></p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{{color{Red}&amp;space;partial&amp;space;a^{(l)}}}=frac{partial&amp;space;z^{(l&amp;plus;1)}}{{color{Red}&amp;space;partial&amp;space;a^{(l)}}}&amp;space;frac{{color{Blue}&amp;space;partial&amp;space;a^{(l&amp;plus;1)}}}{partial&amp;space;z^{(l&amp;plus;1)}}&amp;space;frac{partial&amp;space;C}{{color{Blue}&amp;space;partial&amp;space;a^{(l&amp;plus;1)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705162428.png" alt="" /></a></p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{{color{Magenta}&amp;space;partial&amp;space;w_{j}^{(l)}}}=frac{partial&amp;space;z^{(l)}}{{color{Magenta}&amp;space;partial&amp;space;w_{j}^{(l)}}}frac{{color{Red}partial&amp;space;a^{(l)}}}{partial&amp;space;z^{(l)}}frac{partial&amp;space;C}{{color{Red}partial&amp;space;a^{(l)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705162521.png" alt="" /></a></p>
+
+<p><a href="http://www.codecogs.com/eqnedit.php?latex=begin{aligned}&amp;space;frac{partial&amp;space;C}{{color{Magenta}&amp;space;partial&amp;space;b^{(l)}}}=frac{partial&amp;space;z^{(l)}}{{color{Magenta}&amp;space;partial&amp;space;b^{(l)}}}frac{{color{Red}partial&amp;space;a^{(l)}}}{partial&amp;space;z^{(l)}}frac{partial&amp;space;C}{{color{Red}partial&amp;space;a^{(l)}}}&amp;space;end{aligned}"><img src="../assets/公式_20180705162633.png" alt="" /></a></p>
+
+<p><strong>注意</strong>：其中向量相乘都是以<strong>按元素相乘</strong>的形式，一般用 <code>⊙</code> 符号表示。</p>
+
+<ul>
+<li>以上是纯微积分形式的表达，一些机器学习相关书籍上总结了更简洁的形式，比如：</li>
+</ul>
+
+<p><img src="../assets/TIM截图20180705162841.png" alt="" />
+  &gt; <a href="http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation">The four fundamental equations behind backpropagation</a></p>
+
+<p><strong>注意</strong>：前两个公式为<strong>矢量形式</strong>，后两个具体到单个参数的是<strong>标量形式</strong>。</p>
+
+<p>其中，符号 <code>⊙</code> 按元素相乘：</p>
+
+<p><img src="../assets/TIM截图20180705164018.png" alt="" /></p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">guobao</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2019-09-10
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://bai.io/tags/deep-learning/">deep learning</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/calculus/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Calculus</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/hello-world/">
+            <span class="next-text nav-default">Hello World</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://bai.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        guobao
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

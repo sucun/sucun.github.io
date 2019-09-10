@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>math on Guobao</title>
+    <link>https://bai.io/categories/math/</link>
+    <description>Recent content in math on Guobao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Sep 2019 19:54:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://bai.io/categories/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Calculus</title>
+      <link>https://bai.io/post/calculus/</link>
+      <pubDate>Tue, 10 Sep 2019 19:54:51 +0800</pubDate>
+      
+      <guid>https://bai.io/post/calculus/</guid>
+      <description>目录 微积分（Calculus）引言 推导圆的面积 - 积分的直观理解 积分与导数 导数（Derivative）的意义 “瞬时变化率”引起的歧义——导数的</description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://bai.io/post/deep-learning/</link>
+      <pubDate>Tue, 10 Sep 2019 19:54:51 +0800</pubDate>
+      
+      <guid>https://bai.io/post/deep-learning/</guid>
+      <description>目录 神经网络的结构 神经元（隐藏单元）与隐藏层 神经网络的运作机制 权重和偏置 非线性激活函数 梯度下降法 损失函数（Loss Function） 梯度下降</description>
+    </item>
+    
+  </channel>
+</rss>
