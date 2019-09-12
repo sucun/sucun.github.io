@@ -9,35 +9,7 @@
   </url>
   
   <url>
-    <loc>https://bai.io/post/calculus/</loc>
-    <lastmod>2019-09-10T19:54:51+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bai.io/tags/calculus/</loc>
-    <lastmod>2019-09-10T19:54:51+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://bai.io/categories/</loc>
-    <lastmod>2019-09-10T19:54:51+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bai.io/post/deep-learning/</loc>
-    <lastmod>2019-09-10T19:54:51+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bai.io/tags/deep-learning/</loc>
     <lastmod>2019-09-10T19:54:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -59,13 +31,6 @@
   
   <url>
     <loc>https://bai.io/tags/hello-world/</loc>
-    <lastmod>2019-09-10T19:54:51+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bai.io/categories/math/</loc>
     <lastmod>2019-09-10T19:54:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
